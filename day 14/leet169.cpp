@@ -1,6 +1,15 @@
+// find majority element ( repeat more than n/2 time)
+// use moon's voting algorithm with 
+
+
+
+
 #include<iostream>
 #include<vector>
 using namespace std;
+
+
+
 
 class Solution {
 public:
