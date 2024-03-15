@@ -39,16 +39,35 @@ void printLinkedList(ListNode *head)
     }
     cout << endl;
 }
-ListNode *middleFind(ListNode *head)
+
+ListNode *middleFind2(ListNode *head)
 {
-    // Find middle node iteratively with slow and fast pointers
-    ListNode *slow = head, *fast = head;
-    while (fast != nullptr && fast->next != nullptr)
+    // find length
+    int length = 1;
+    ListNode *node = head;
+    while (node->next != NULL)
     {
-        slow = slow->next;
-        fast = fast->next->next;
+        length++;
+        node = node->next;
     }
-    return slow;
+    int middlePos = length / 2;
+    node = head;
+    ListNode *middleNode = NULL;
+    while (true)
+    {
+        if (middlePos == 0)
+        {
+            middleNode = node;
+            break;
+        }
+        else
+        {
+            middlePos--;
+            node = node->next;
+        }
+    }
+
+    return middleNode;
 }
 
 ListNode *merge(ListNode *left, ListNode *right)
@@ -86,13 +105,13 @@ ListNode *mergeSort(ListNode *head)
         return head;
     }
 
-    ListNode *middle = middleFind(head);
+    ListNode *middle = middleFind2(head);
     ListNode *nextToMiddle = middle->next;
 
     middle->next = nullptr;
 
-    ListNode *leftList = mergeSort(nextToMiddle);
-    ListNode *rightList = mergeSort(rightList);
+    ListNode *leftList = mergeSort(head);
+    ListNode *rightList = mergeSort(nextToMiddle);
 
     return merge(leftList, rightList);
 }
@@ -100,9 +119,6 @@ ListNode *mergeSort(ListNode *head)
 int main()
 {
 
-    cout << "Hello " << endl;
-    cout << "Start" << endl;
-    cout << "Start" << endl;
     int arr[] = {6, 7, 2, 3};
     int size = sizeof(arr) / sizeof(arr[0]);
 
