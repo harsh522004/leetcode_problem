@@ -4,24 +4,105 @@
 #include <vector>
 #include <queue>
 #include <cmath>
-TreeNode *function(vector<int> &preorder, int value, vector<int> tamp)
+#include <algorithm>
+#include <map>
+
+int findIndex(vector<int> &nodes, int value)
 {
-    if (tamp.size() == 0)
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        if (nodes[i] == value)
+        {
+            return i;
+        }
+    }
+}
+
+// ap 1
+int findFirst(vector<int> &preOrder, vector<int> findFrom)
+{
+    for (int i = 0; i < preOrder.size(); i++)
+    {
+        int element = preOrder[i];
+        auto it = find(findFrom.begin(), findFrom.end(), element);
+        if (it != findFrom.end())
+        {
+            return element;
+            // std::cout << "Element " << target << " found at index " << (it - vec.begin()) << std::endl;
+        }
+    }
+}
+
+TreeNode *Tampfunction(vector<int> &nodes, int value, vector<int> &preorder)
+{
+    if (nodes.size() == 0)
     {
         return nullptr;
     }
-    if (tamp.size() == 1)
+    TreeNode *tamp = new TreeNode(value);
+
+    if (nodes.size() == 1)
     {
-        TreeNode *node = new TreeNode(tamp[0]);
-        return node;
+
+        return tamp;
     }
 
+    vector<int> left;
+    vector<int> right;
+
+    bool isLeft = true;
     // create left vector
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        if (nodes[i] == value)
+        {
+            isLeft = false;
+        }
+        else
+        {
+            if (isLeft)
+            {
+                left.push_back(nodes[i]);
+            }
+            else
+            {
+                right.push_back(nodes[i]);
+            }
+        }
+    }
+
+    int a = left.size() != 0 ? findFirst(preorder, left) : 0;
+    int b = right.size() != 0 ? findFirst(preorder, right) : 0;
+
+    tamp->left = Tampfunction(left, a, preorder);
+
+    tamp->right = Tampfunction(right, b, preorder);
+
+    return tamp;
+}
+
+// ap 2
+TreeNode *tree(vector<int> preorder, vector<int> inorder, int &preindex, int inorderstart, int inorderend)
+{
+    if (preindex >= preorder.size() || inorderstart > inorderend)
+    {
+        return NULL;
+    }
+    int element = preorder[preindex++];
+    TreeNode *root = new TreeNode(element);
+    int pos = findposition(inorder, element);
+
+    root->left = tree(preorder, inorder, preindex, inorderstart, pos - 1);
+    root->right = tree(preorder, inorder, preindex, pos + 1, inorderend);
+    return root;
 }
 TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
 {
+    int preindex = 0;
+    int inorderstart = 0;
+    int inorderend = inorder.size() - 1;
+    return tree(preorder, inorder, preindex, inorderstart, inorderend);
 }
-
 int main()
 {
 
@@ -36,8 +117,13 @@ int main()
 
     vector<int> preorder = {1, 2, 8, 3, 9, 6, 4};
     vector<int> inorder = {8, 2, 1, 9, 3, 4, 6};
-    TreeNode *root = buildTree(preorder, inorder);
-    cout << root->val << endl;
+
+    // TreeNode *root = Tampfunction(inorder, 1, preorder);
+    // cout << root->val << endl;
+
+    TreeNode *root = buildTree(inorder, preorder, 0, 0, inorder.size() - 1);
+
+    printTree(root);
 
     return 0;
 }

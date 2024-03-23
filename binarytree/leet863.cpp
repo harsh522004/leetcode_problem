@@ -15,6 +15,7 @@ void printNodesInStack(stack<TreeNode *> s)
     }
     cout << endl;
 }
+
 unordered_map<TreeNode *, TreeNode *> createMaps(TreeNode *root)
 {
     unordered_map<TreeNode *, TreeNode *> childParentMap;
@@ -128,8 +129,7 @@ void function(pair<TreeNode *, int> targetPair, stack<TreeNode *> &currentNodesS
         function(make_pair(childToParent[currentNode], distance - 1), currentNodesStack, childToParent, ans);
     }
 
-    // cout << "Element Poped" << endl;
-    //  here use stack
+       //  here use stack
     currentNodesStack.pop();
 }
 

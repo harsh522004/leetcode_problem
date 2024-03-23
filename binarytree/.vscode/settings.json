@@ -2,6 +2,10 @@
   "files.associations": {
     "new": "cpp",
     "unordered_map": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "cmath": "cpp",
+    "functional": "cpp",
+    "algorithm": "cpp",
+    "iostream": "cpp"
   }
 }

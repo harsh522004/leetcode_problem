@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 struct TreeNode
@@ -18,6 +19,31 @@ struct TreeNode
         right = nullptr;
     }
 };
+
+void printBFS(TreeNode *root)
+{
+    if (root == NULL)
+        return;
+
+    queue<TreeNode *> q;
+    q.push(root);
+
+    while (!q.empty())
+    {
+        int size = q.size();
+        for (int i = 0; i < size; i++)
+        {
+            TreeNode *current = q.front();
+            q.pop();
+            cout << current->val << " ";
+            if (current->left != NULL)
+                q.push(current->left);
+            if (current->right != NULL)
+                q.push(current->right);
+        }
+        cout << endl; // Print a new line after each level
+    }
+}
 
 void printTree(TreeNode *root)
 {
