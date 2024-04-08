@@ -6,6 +6,7 @@
     "cmath": "cpp",
     "functional": "cpp",
     "algorithm": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "tuple": "cpp"
   }
 }
